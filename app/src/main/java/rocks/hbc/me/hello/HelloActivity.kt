@@ -1,6 +1,7 @@
 package rocks.hbc.me.hello
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.widget.Toast
 class HelloActivity : AppCompatActivity() {
     private var mView: View? = null
     private var inFullscreen: Boolean = false
+    private var clickTimes: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +27,13 @@ class HelloActivity : AppCompatActivity() {
         enterFullScreen()
 
         findViewById(R.id.hello).setOnClickListener {
-            if (inFullscreen) {
+            clickTimes = clickTimes + 1
+
+            if (clickTimes % 5 == 0) {
+                var intent = Intent(this, InfoActivity::class.java)
+                intent.putExtra("CLICK_TIMES", "$clickTimes")
+                startActivity(intent);
+            } else if (inFullscreen) {
                 exitFullScreen()
             } else {
                 enterFullScreen()
